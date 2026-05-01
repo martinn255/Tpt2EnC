@@ -3,7 +3,6 @@
 #include <string.h>
 #include "cadena.h"
 
-/* ====== STRING SIMPLE : Esto deberìa estar en String.h*/
 ///*
 str crearNodoCad(char c){
 	str nvo;

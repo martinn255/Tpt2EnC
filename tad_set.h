@@ -39,6 +39,7 @@ Tdata intersection_set(Tdata A, Tdata B);//
 Tdata difference_set(Tdata A, Tdata B);//
 Tdata subset(Tdata A, Tdata B);//sub conjunto
 int equals_set(Tdata A, Tdata B); // compara dos conjuntos
+int equals_general(Tdata,Tdata);
 
 	//Operaciones sobre Listas
 void append_list(Tdata* list, Tdata elem);				//listo

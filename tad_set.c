@@ -34,10 +34,7 @@ Tdata clone2(Tdata n){
 	
 	if(n->nodeType == STR){
 		nuevo = create_str_ast();
-		//nuevo->string = load2(n->string);
-		//str_desde_string(&n_nuevo,n->string);
 		nuevo->string=str_copiar_cad(n->string);
-		//printf("\n---------\n");
 		//str_imprimir(nuevo->string);
 		//printf("\n---------\n");
 	}
@@ -50,12 +47,6 @@ Tdata clone2(Tdata n){
 		Tdata tail = NULL;
 		
 		while(aux != NULL){
-			/*Tdata nodo_lista;
-			if(aux->nodeType==LIST){
-				nodo_lista =create_list();
-			}else{
-				nodo_lista=create_set();
-			}*/
 			//Tdata nodo_lista = create_list(); // nodo contenedor
 			//Tdata nodo_lista = create_set();//este es el original peroel de arriba es con lista
 			Tdata nodo_lista= (Tdata)malloc(sizeof(struct dataType));
@@ -283,38 +274,6 @@ Tdata copy_list(Tdata list){//(copia profunda)
 		return NULL;
 	}
 	
-	/*Tdata nuevo;
-	Tdata copy;
-	if(list==NULL){
-		return NULL;
-	}
-	nuevo=NULL;
-	copy=NULL;
-	if(list->nodeType==STR){
-		nuevo->string=str_copiar_cad(list->string);
-	}
-	if(list->nodeType==LIST){
-		copy=copy_list(list->data);
-	}
-	nuevo=create_list();
-	nuevo->data=copy;
-	nuevo->next=copy_list(list->next);
-	/*if(list->nodeType == STR){//si es str
-		nuevo->string=str_copiar_cad(list->string);
-	}else{//sie es lista o conjunto
-		if(list->nodeType == SET){
-			nuevo=create_set();
-			nuevo->data=copy_list(list->data);
-			nuevo->next=copy_list(list->next);
-		}else{
-			nuevo=create_list();
-			nuevo->data=copy_list(list->data);
-			nuevo->next=copy_list(list->next);
-		}
-	}*/
-	
-	//retorna la copia
-	//return nuevo;
 }
 Tdata concat(Tdata l1, Tdata l2){
 	
@@ -338,7 +297,9 @@ Tdata union_set(Tdata A, Tdata B){
 	//Copio lo de B
 	//aux=B;
 	//while(aux!=NULL){
-		//if(aux==NULL)
+		//if(aux==NULL){
+		//	
+		//}
 		//aux=aux->next	
 	//}
 	return res;
@@ -363,10 +324,72 @@ Tdata difference_set(Tdata A, Tdata B){
 Tdata subset(Tdata A, Tdata B){
 	
 }
-int equals_set(Tdata A, Tdata B){
-	if(A==B) return 1;
+int equals_general(Tdata A, Tdata B){
+	//if(A==B) return 1;
+	if(A==NULL||B==NULL)return -1;
+	if(A->nodeType==STR && B->nodeType==STR){
+		return str_compara(A->string,B->string);//si es -1 es que no la encontro
+	}
+	if(A->nodeType!=B->nodeType)return -1;
+	if(A->nodeType==LIST && B->nodeType==LIST){
+		return equals_list(A->data,B->data);
+	}else{
+		return equals_set(A,B);
+	}
+	
 	
 }
+	int equals_list(Tdata A, Tdata B){
+		if( (A==NULL ||B==NULL) ||(A->nodeType!=LIST || B->nodeType!=LIST) ){
+			printf("\nError. SET invalido...\n");
+			return -1;
+		}
+		int equal=1;
+		while(equal==1 && A!=NULL && B!=NULL){
+			if( A->data->nodeType==B->data->nodeType ){
+				switch(A->data->nodeType){
+				case LIST:
+					equal = equals_list(A, B);
+					break;
+				case SET:
+					equal = equals_set(A->data, B->data);
+					break;
+				case STR:
+					equal = str_compara(A->string,B->string);
+				}
+				A = A->next; B = B->next;
+			} else {
+				equal=0;
+			}
+		}
+		return equal;  // 0 si son iguales
+	}
+		int equals_set(Tdata A, Tdata B){
+			if( (A==NULL || B==NULL) || (A->nodeType!=SET || B->nodeType!=SET) ){
+				printf("\nError. SET invalido...\n");
+				return -1;
+			}
+			int equal=1;
+			while(equal==1 && A!=NULL && B!=NULL){
+				if( A->data->nodeType==B->data->nodeType ){
+					switch(A->data->nodeType){
+					case LIST:
+						equal = equals_list(A,B);
+						break;
+					case SET:
+						equal = equals_set(A->data, B->data);
+						break;
+					case STR:
+						equal = str_compara(A->string,B->string);
+					}
+					A = A->next; B = B->next;
+				} else {
+					equal=0;
+				}
+			}
+			return equal;  // 0 si son iguales
+		}		
+		
 Tdata prod_cartesiano(Tdata A,Tdata B){
 	Tdata prod=NULL,nuevo;
 	prod=create_set();

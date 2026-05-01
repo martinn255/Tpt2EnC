@@ -39,6 +39,12 @@ int main(){
 	printf("A = ");
 	printSet(A);
 	
+	printf("\n");
+	printf("\nComparacion:");
+	int comp = equals_general(A,B);
+	printf("%d",comp);
+	
+	
 	printf("\nB = ");
 	printSet(B);
 	
@@ -115,6 +121,8 @@ int main(){
 	printSet(Pr);
 	
 	
+	
+	
 	/*
 	str cad1;
 	cad1=str_crear();
@@ -128,61 +136,6 @@ int main(){
 	str_destruir(&cad1);
 	str_imprimir(cad1);*/
 	
-	
-	//printf("Hola mundo");
-	
-	/*
-	Tdata A = NULL;
-	Tdata B = NULL;
-	
-	Tdata li = NULL; //tipo lista
-	Tdata li2 = NULL;
-	
-	 //A = {"hola", "mundo"} 
-	Tdata s1 = create_str_ast();
-	s1->string = load2("hola");
-	
-	Tdata s2 = create_str_ast();
-	s2->string = load2("mundo");
-	
-	append_set(&A, s1);
-	append_set(&A, s2);
-	
-	
-	 //B = {"palabra", {A}} 
-	Tdata s3 = create_str_ast();
-	s3->string = load2("palabra");
-	
-	append_set(&B, s3);
-	append_set(&B, A);   
-	
-	printf("A = ");
-	printSet(A);
-	
-	printf("\nB = ");
-	printSet(B);
-	
-	append_list(&li, s1);  
-	append_list(&li,s2);
-	
-	append_list(&li2,s2);
-	append_list(&li2,s1);
-	append_list(&li2,s3);
-	
-	printf("\n Lista1= ");
-	printSet(li);
-	
-	printf("\n Lista2= ");
-	printSet(li2);
-	
-	printf("\n");
-	
-	printf("\nTamanio de la lista: ");
-	int tam1=length(li);
-	printf("%d ",tam1);
-	printf("\nTamanio de la lista: ");
-	int tam2=length(li2);
-	printf("%d ",tam2);
 	//*/
 	return 0;
 }
