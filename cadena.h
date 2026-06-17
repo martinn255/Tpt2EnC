@@ -26,5 +26,6 @@ void str_eliminar_vocales(str *);
 void str_imprimir(str);
 void str_destruir(str *);
 str str_copiar_cad(str);
+str str_concat(str,str);
 int str_compara(str,str);//*/
 #endif

@@ -73,6 +73,7 @@ void str_destruir(str *cadena){
 
 	str act,prox;
 	act=(*cadena);
+	
 	if(act!=NULL){
 		
 		while(act!=NULL){
@@ -109,7 +110,7 @@ str str_copiar_cad(str orig){
 }
 int str_compara(str cad1,str cad2){
 	
-	if(cad1==NULL || cad2==NULL){
+	if(cad1==NULL || cad2==NULL){ //verifico que las cadenas no esten vacias
 		return -1;
 	}else{
 		str aux1=cad1;
@@ -125,6 +126,16 @@ int str_compara(str cad1,str cad2){
 	}
 	
 	return -1;
+}
+str str_concat(str cad1 , str cad2){
+	str nuevo = str_copiar_cad(cad1);//Copio la primera cadena
+	str aux = cad2;
+	while(aux!=NULL){
+		str_agregar(&nuevo,aux->dato);//le paso la cad1 y el char de cad2
+		aux=aux->sig;
+	}
+	return nuevo;
+	
 }
 //*/
 /*

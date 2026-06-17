@@ -15,12 +15,18 @@ int main(){
 	
 	//A = {"hola", "mundo"} 
 	Tdata s1= create_str_ast();
-	str_desde_string(&s1,"Hola");
-	Tdata s2= create_str_ast();
-	str_desde_string(&s2,"Mundo");
+	str_desde_string(&(s1->string),"Hola");//Esta es la forma de agrgar una cadena
+	Tdata s2= create_str_ast();				//ya que es Tdata con mas cosas aparte de string
+	str_desde_string(&(s2->string),"Mundo");//Corregir este s->string 
 	
-	
+	//concatenacion de cadena
+	//str conc=str_concat(s2,s1);
+	//str_imprimir(conc);
+	//printf("\n");
+	//Mostar s1
 	//str_imprimir(s1);
+	//printf("\n");
+	
 	append_set(&A, s1);
 	//printf("A = ");
 	//printSet(A);
@@ -30,7 +36,7 @@ int main(){
 	
 	//B = {"palabra", {A}} 
 	Tdata s3 = create_str_ast();
-	str_desde_string(&s3,"palabra");
+	str_desde_string(&(s3->string),"palabra");
 	//s3->string = load2("palabra"); es lo mismo que arriba
 	
 	append_set(&B, s3);
@@ -89,7 +95,9 @@ int main(){
 	printf("\ncompara cadenas:");
 	printf("%d",valor);
 	
-	int bus=belongs(li2,s3);
+	printf("\n el S3=");
+	str_imprimir(s3->string);
+	int bus=belongs(B,s3);
 	printf("\nPertenece al conjunto:");
 	printf("%d",bus);
 	
@@ -98,6 +106,9 @@ int main(){
 	insert_set(&A,s2);
 	printf("\nA=");
 	printSet(A);
+	printf("\nB=");
+	printSet(B);
+	
 	
 	printf("\n");
 	printf("\nUnion 1:");
@@ -112,9 +123,17 @@ int main(){
 	Tdata D1=difference_set(A,B);
 	printSet(D1);
 	
+	printf("\nSubSet 1:");
+	int subconj = subset(A,U1);//si lo pruebo al reves ya no es subconj
+	printf("%d",subconj);
+	
 	printf("\nCopia de Lista:");
 	Tdata copi=copy_list(li2);
 	print_list(copi);
+	
+	printf("\nConcatenacion de Lista:");
+	Tdata concl = concat(li,li2);
+	print_list(concl);
 	
 	printf("\nProducto cartesiano 1:");
 	Tdata Pr= prod_cartesiano(A,B);

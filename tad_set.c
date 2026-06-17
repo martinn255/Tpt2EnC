@@ -72,7 +72,7 @@ Tdata clone2(Tdata n){
 	return nuevo;
 }
 
-Tdata clone(Tdata n){
+/*Tdata clone(Tdata n){
 	if(n == NULL) return NULL;
 	
 	Tdata nuevo = NULL;
@@ -110,7 +110,7 @@ Tdata clone(Tdata n){
 	}
 	
 	return nuevo;
-}
+}*/
 
 void append_set(Tdata *A, Tdata e){
 	Tdata nuevo = create_set();
@@ -185,29 +185,28 @@ void printSet(Tdata A){
 	//Insertar una cadena a dicho conjunto(sin duplicados)//verificar bien que hace 
 void insert_set(Tdata* A, Tdata elem){
 	
-	Tdata aux=*A;
-	if(belongs(aux,elem)!=1){
-		append_set(&aux,elem);
+	if(belongs(*A,elem)!=1){
+		append_set(A,elem);
 		printf("\nIngreso");
 	}else{
-		printf("\nEl str esta en el conjunto no puedo agregarlo");
+		printf("\nEl elemento ya esta en el conjunto");
 	}
 }
-//buscar o pertenece la Cadena a dicho conjunto 
+//buscar zi pertenece la Cadena o conjunto(list O set) a dicha (LIST,SET)
 int belongs(Tdata A, Tdata elem){
-	if(A!=NULL){
-		Tdata aux=A;
-		while(aux!=NULL){
-			if(str_compara(aux->data->string,elem->string)==0){
-				return 1;
-			}
-			aux=aux->next;
+	if(A==NULL || elem ==NULL)return -1; //si el lugar donde busco o el elemento que busco no es null
+	Tdata aux=A;
+	while(aux!=NULL){
+		if(aux->data != NULL && equals_general(aux->data,elem)==0){
+			//printf("\n entro \n");
+			return 1;//si encontro el eleemnto en (LIST,SET) o (si una cadena es igual a otra) 
 		}
+		aux=aux->next;
 	}
 	//printf("\nNO lo encontro en el conjunto O lista vacia\n");
 	return -1;
 }
-//eliminar cadena del conjunto (esto entiendo yo)
+//eliminar elem del conjunto (esto entiendo yo)
 void remove_set(Tdata* set, Tdata elem){
 	
 }
@@ -275,124 +274,146 @@ Tdata copy_list(Tdata list){//(copia profunda)
 	}
 	
 }
+//Concateno 2 listas l1 y l2 
 Tdata concat(Tdata l1, Tdata l2){
-	
+	if(l1->nodeType!=LIST || l2->nodeType!=LIST) return NULL;
+	Tdata res=copy_list(l1);
+	Tdata aux=l2;
+	while(aux!=NULL){
+		append_list(&res,aux->data);
+		aux=aux->next;
+	}
+	return res;
 }
+//Busca el eleemnto y te da la posicion por ser en lista 
 int search(Tdata list, Tdata elem){
 	Tdata aux=NULL;
-	if(list==NULL){
-		return -1;
+	int pos=0;
+	if(list ==NULL || elem==NULL || list->nodeType!=LIST)return -1;
+	aux=list;
+	while(aux!=NULL){
+		if(aux->data!=NULL && equals_general(aux->data,elem)==0){//si es 0 lo encontro en la lista
+			return pos;//retorno pos
+		}
+		aux=aux->next;
+		pos++;
 	}
-	
+	return -1;
 }
-//Operaciones Algrebraicas	
+//Operaciones Algrebraicas
+//Une A y B sin repetidos
 Tdata union_set(Tdata A, Tdata B){
-	Tdata res=NULL;
+	Tdata resu=NULL;
 	//Copio todo A
 	Tdata aux=A;
 	while(aux!=NULL){
-		append_set(&res,aux->data);
+		append_set(&resu,aux->data);
 		aux=aux->next;
 	}
-	//Copio lo de B
-	//aux=B;
-	//while(aux!=NULL){
-		//if(aux==NULL){
-		//	
-		//}
-		//aux=aux->next	
-	//}
-	return res;
+	//Copio lo de B 
+	aux=B;
+	while(aux!=NULL){
+		if(belongs(resu,aux->data)!=1){//busco en resu si no esta agrego 
+			append_set(&resu,aux->data);
+		}
+		aux=aux->next;	
+	}
+	return resu;
 }
+//Los elementos que estan en A y en B solamente
 Tdata intersection_set(Tdata A, Tdata B){
 	Tdata res=NULL;
 	Tdata aux=A;
 	while(aux!=NULL){
+		//if(belongs(B,aux->data)==1){//si esta en B agrego
+			//append_set(&res,aux->data);
+		//}
 		aux=aux->next;
 	}
 	return res;
 }
+//Los elelemntos de A que no estan en B 
 Tdata difference_set(Tdata A, Tdata B){
 	Tdata res=NULL;
 	Tdata aux=A;
 	while(aux!=NULL){
+		if(belongs(B,aux->data)!=1){//que no este en B
+			append_set(&res,aux->data);
+		}
 		aux=aux->next;
 	}
 	return res;
 	
 }
-Tdata subset(Tdata A, Tdata B){
-	
-}
-int equals_general(Tdata A, Tdata B){
-	//if(A==B) return 1;
-	if(A==NULL||B==NULL)return -1;
-	if(A->nodeType==STR && B->nodeType==STR){
-		return str_compara(A->string,B->string);//si es -1 es que no la encontro
-	}
-	if(A->nodeType!=B->nodeType)return -1;
-	if(A->nodeType==LIST && B->nodeType==LIST){
-		return equals_list(A->data,B->data);
-	}else{
-		return equals_set(A,B);
-	}
-	
-	
-}
-	int equals_list(Tdata A, Tdata B){
-		if( (A==NULL ||B==NULL) ||(A->nodeType!=LIST || B->nodeType!=LIST) ){
-			printf("\nError. SET invalido...\n");
+//Si A es subconjunto de B(Si todo elemento de A pertenece a B)
+int subset(Tdata A, Tdata B){
+	Tdata aux=A;
+	while(aux!=NULL){
+		if(belongs(B,aux->data)!=1){//Si no esta salgo no es subconjunto
 			return -1;
 		}
-		int equal=1;
-		while(equal==1 && A!=NULL && B!=NULL){
-			if( A->data->nodeType==B->data->nodeType ){
-				switch(A->data->nodeType){
-				case LIST:
-					equal = equals_list(A, B);
-					break;
-				case SET:
-					equal = equals_set(A->data, B->data);
-					break;
-				case STR:
-					equal = str_compara(A->string,B->string);
-				}
-				A = A->next; B = B->next;
-			} else {
-				equal=0;
-			}
-		}
-		return equal;  // 0 si son iguales
+		aux=aux->next;
 	}
-		int equals_set(Tdata A, Tdata B){
-			if( (A==NULL || B==NULL) || (A->nodeType!=SET || B->nodeType!=SET) ){
-				printf("\nError. SET invalido...\n");
-				return -1;
-			}
-			int equal=1;
-			while(equal==1 && A!=NULL && B!=NULL){
-				if( A->data->nodeType==B->data->nodeType ){
-					switch(A->data->nodeType){
-					case LIST:
-						equal = equals_list(A,B);
-						break;
-					case SET:
-						equal = equals_set(A->data, B->data);
-						break;
-					case STR:
-						equal = str_compara(A->string,B->string);
-					}
-					A = A->next; B = B->next;
-				} else {
-					equal=0;
-				}
-			}
-			return equal;  // 0 si son iguales
-		}		
-		
+	return 1;
+}
+//Compara cuakquier par de Tdata sea(STR,SET,LIST),sin importar el tipo
+//devuelve 0 si son iguales y -1 distintos
+//Esto es recursivo asi no tengo que repetir instrucciones en equal list y set
+int equals_general(Tdata A, Tdata B){
+	if(A==NULL && B==NULL) return 0; //Ambos vacios:iguales
+	if(A==NULL||B==NULL)return -1; //Alguno vacio y el otro no
+	
+	if(A->nodeType!=B->nodeType) return -1;//si no Son del mismo tipo :diferentes
+	//Muy importante el anterior ya que sino no puedo hacer el switch de abajo
+	switch(A->nodeType){
+		case STR:
+			return str_compara(A->string,B->string);
+		case LIST:
+			return equals_list(A, B);
+		case SET:
+			return equals_set(A, B);
+		default:
+			return -1;
+	}
+	
+}
+int equals_list(Tdata A, Tdata B){
+	while(A!=NULL && B!=NULL){//hasta terminar las listas
+		if( A->data==NULL || B->data==NULL ) return -1;//Si alguna list tiene un dato null son dif
+		if(equals_general(A->data,B->data)!=0)return -1;//si en la lista hay sublistas o set o cadenas hace recursion
+		A=A->next;
+		B=B->next;
+	}
+	if(A==NULL && B==NULL){//Si las dos son vacias es porque son iguales
+		return 0;//son iguales las listas
+	}else{
+		return -1;//Si no son las 2 null son dif
+	}
+}
+//En equal_set tuve muchas complicaciones ya que al ser conjuntos el orden no importa
+// por lo tanto basta encontrar cada elemento a esta en b y cada ele de b en a
+//osea tengo que encontrar a con una busqueda secuencial sin un orden como la lista 
+//tengo que usar el belong 	
+int equals_set(Tdata A, Tdata B){
+	Tdata aux=A;//Si los ele de a estan en B
+	while(aux!=NULL){
+		if(belongs(B,aux->data)!=1){
+			return -1;
+		}
+		aux=aux->next;
+	}
+	aux=B;//Si los ele de b estan en A
+	while(aux!=NULL){
+		if(belongs(A,aux->data)!=1){
+			return -1;
+		}
+		aux=aux->next;
+	}
+	return 0;  // 0 si son iguales ya que no retorno antes
+}		
+	
 Tdata prod_cartesiano(Tdata A,Tdata B){
 	Tdata prod=NULL,nuevo;
-	prod=create_set();
 	Tdata auxA=A;
 	Tdata auxB=B;
 	

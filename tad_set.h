@@ -37,7 +37,7 @@ void remove_set(Tdata* set, Tdata elem); //eliminar
 Tdata union_set(Tdata A, Tdata B);//
 Tdata intersection_set(Tdata A, Tdata B);//
 Tdata difference_set(Tdata A, Tdata B);//
-Tdata subset(Tdata A, Tdata B);//sub conjunto
+int subset(Tdata A, Tdata B);//sub conjunto
 int equals_set(Tdata A, Tdata B); // compara dos conjuntos
 int equals_general(Tdata,Tdata);
 
@@ -47,6 +47,8 @@ int length(Tdata list);									//listo
 Tdata copy_list(Tdata list); //(copia profunda)			//probar
 Tdata concat(Tdata l1, Tdata l2);
 int search(Tdata list, Tdata elem);
+
+int equals_list(Tdata,Tdata);
 
 void print_list(Tdata);
 
