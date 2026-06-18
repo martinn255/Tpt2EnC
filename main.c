@@ -4,6 +4,16 @@
 #include "tad_set.h"
 
 int main(){
+	
+	prueba_set();
+	//prueba_cad();
+	//printf("\n");
+	
+	
+	return 0;
+}
+void prueba_set(){
+	
 	///*
 	Tdata A= NULL;
 	Tdata B = NULL;
@@ -139,8 +149,8 @@ int main(){
 	Tdata Pr= prod_cartesiano(A,B);
 	printSet(Pr);
 	
-	
-	
+}
+void prueba_cad(){
 	
 	/*
 	str cad1;
@@ -156,6 +166,5 @@ int main(){
 	str_imprimir(cad1);*/
 	
 	//*/
-	return 0;
 }
 	

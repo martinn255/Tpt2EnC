@@ -41,6 +41,7 @@ int subset(Tdata A, Tdata B);//sub conjunto
 int equals_set(Tdata A, Tdata B); // compara dos conjuntos
 int equals_general(Tdata,Tdata);
 
+
 	//Operaciones sobre Listas
 void append_list(Tdata* list, Tdata elem);				//listo
 int length(Tdata list);									//listo
@@ -51,7 +52,8 @@ int search(Tdata list, Tdata elem);
 int equals_list(Tdata,Tdata);
 
 void print_list(Tdata);
-
+//Para ambos o algo parecido
+Tdata prod_cartesiano(Tdata,Tdata);
 
 
 #endif
