@@ -2,10 +2,24 @@
 #include <stdio.h>
 #include "cadena.h"
 #include "tad_set.h"
+#include "automata.h"
 
 int main(){
 	
-	prueba_set();
+	AF A=crear_automata();
+	//Lo mas parecido a los automatas de pyton la entrada
+	agregar_estado(A,"q0");
+	agregar_estado(A,"q1");
+	agregar_estado(A,"q2");
+	
+	agregar_simbolo(A,"a");
+	agregar_simbolo(A,"b");
+	
+	agregar_Einicial(A,"q0");
+	agregar_Efinal(A,"q2");
+	
+	mostar_automata(A);
+	//prueba_set();
 	//prueba_cad();
 	//printf("\n");
 	

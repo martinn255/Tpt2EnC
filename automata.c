@@ -16,33 +16,55 @@ AF crear_automata(){
 	aut->delta=NULL;
 	return aut;
 }
-DeltaNodo crear_deltaNodo(char *es,char *sym){
+//Crea los nodos para el delta
+DeltaNodo crear_deltaNodo(char *q,char *simb){
 	DeltaNodo nodo;
 	nodo = (DeltaNodo) malloc(sizeof(NodoDel));
-	nodo->from=str_liEnlaz(es);
-	nodo->symbol=str_liEnlaz(sym);
+	nodo->from=crea_str_Enl(q);
+	nodo->symbol=crea_str_Enl(simb);
 	nodo->destinatario=NULL;
 	nodo->sigi=NULL;
+	return nodo;
 }
 	
 //Crea un str desde una cadena c osea le puedo pasar q0,q1,a,b,qx0 asi Ya la tengo pero esta me retorna el String como Tdata
-State str_liEnlaz(char *nombre){
+State crea_str_Enl(char *nombre){
 	Tdata sr=create_str_ast();
-	str_desde_string(&sr,nombre);//verificar sr->string
+	str_desde_string(&(sr->string),nombre);//verificar sr->string
 	return sr;
 }
-void agregar_estado(){
-	
+
+void agregar_estado(AF aut,char *nom){
+	append_set(&aut->Q,crea_str_Enl(nom));
 }
-void agregar_simbolo(){
-	
+void agregar_simbolo(AF aut,char *simb){
+	append_set(&aut->sigma,crea_str_Enl(simb));
 }
-void agregar_Einicial(){
-	
+void agregar_Einicial(AF aut,char *q){
+	aut->qI=crea_str_Enl(q);
 }
-void agregar_Efinal(){
-	
+void agregar_Efinal(AF aut,char *Eacepta){
+	append_set(&aut->F,crea_str_Enl(Eacepta));
 }
 void agregar_transiciones(){
-	
+	//buscar el Nodo
+	//verifico si exite si es verdar le agrego los detinos por ser AFND
+	//sino una nueva entrada lo creo y la agrego sus destinos
 }
+DeltaNodo buscar_nodo(){
+	//idea geberal buscar el delta osea el nodo delta(q,simbolo)
+}
+void mostar_automata(AF aut){
+	printf("\nQ =");
+	printSet(aut->Q);
+	printf("\nSigma =");
+	printSet(aut->sigma);
+	printf("\nq0 =");
+	str_imprimir(aut->qI->string);
+	printf("\nF =");
+	printSet(aut->F);
+	printf("\n");
+	
+	//Falta el imprimir el delta osea las transiciones 
+}
+	//Faltaria para modificar los estados o las transiciones 
