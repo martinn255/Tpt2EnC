@@ -42,5 +42,7 @@ void agregar_estado(AF ,char *);
 void agregar_simbolo(AF ,char *);
 void agregar_Einicial(AF ,char*);
 void agregar_Efinal(AF ,char *);
-//void agregar_transiciones(AF *,char *q,char *simb,char *dest);
+
+void agregar_transiciones(AF *,char *q,char *simb,char *dest);
 void mostar_automata(AF);
+DeltaNodo buscar_transicion(AF , char*,char*);
