@@ -1,6 +1,7 @@
 #include "automata.h"
 #include "tad_set.h"
 #include <stdio.h>
+
 //Hice cambios en la extructura intente hacer la propuesta4
 //pero le agregrege que sea como lista enlazada sin isar el indice del 4 
 //seria como una combinacion del 4 y lista enlazada de deltaENtry
@@ -99,7 +100,7 @@ DeltaNodo buscar_transicion(AF aut,State q,char *alf){
 	}
 	return NULL;
 }
-/*	
+
 void aceptacion_cadena(AF aut, char *w){
 	Tdata cadena = crea_str_Enl(w);
 	if(cadena == NULL || cadena->string == NULL){
@@ -161,7 +162,7 @@ void aceptacion_cadena(AF aut, char *w){
 		}
 	}
 	
-}*/
+}
 //Devuelve 1 si algun estado esta pertenece a F=qf
 int pertence_qf(AF aut ,Tdata estados){
 	Tdata aux = estados;
@@ -216,7 +217,7 @@ int perteneceSigma(Tdata sigma, char *w){
 		return -1;
 	}
 }
-	
+/*
 char str_a_string(str cadena){  //En cadena.h y cadena.c
 	int len = 0;
 	str aux = cadena;
@@ -228,7 +229,7 @@ char str_a_string(str cadena){  //En cadena.h y cadena.c
 	}
 	
 	// Reservar memoria (+1 para '\0')
-	chartexto = malloc((len + 1) * sizeof(char));
+	char texto = malloc((len + 1) * sizeof(char));
 	if(texto == NULL)
 		return NULL;
 	
@@ -236,7 +237,8 @@ char str_a_string(str cadena){  //En cadena.h y cadena.c
 	aux = cadena;
 	int i = 0;
 	while(aux != NULL){
-		texto[i++] = aux->dato;
+		texto[i] = aux->dato;
+		i++;
 		aux = aux->sig;
 	}
 	
@@ -260,7 +262,7 @@ void aceptacion_cadena(AF aut, char *w){
 			while(viejoEstadosActuales!=NULL){
 				str estado = viejoEstadosActuales->data->string;
 				//if(viejoEstadosActuales->data==NULL) printf("A----- %d", viejoEstadosActuales->nodeType);
-				charest = str_a_string(estado);
+				char est = str_a_string(estado);
 				//printSet(aut->delta);
 				DeltaNodo transicion = buscar_transicion(aut, est, c);
 				//printf("\nEstado: %s - Symbolo: %s", est, c);
@@ -283,7 +285,7 @@ void aceptacion_cadena(AF aut, char *w){
 			printf("Cadena aceptada");
 		}
 	}
-}
+}*/
 	/*DeltaNodo buscar_trans_estados(AF aut,State q,Symbol alf){
 	//idea geberal buscar el delta osea el nodo delta(q,simbolo)
 	//Symbol al =crea_str_Enl(alf);

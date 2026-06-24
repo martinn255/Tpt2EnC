@@ -49,7 +49,7 @@ void mostar_automata(AF);
 void aceptacion(AF,char*);
 
 DeltaNodo buscar_transicion(AF,State,char*);
-//void aceptacion_cadena(AF,char *);
+void aceptacion_cadena(AF,char *);
 int perteneceSigma(Tdata,char*);
 int pertence_qf(AF,Tdata);
 int pertenece_Q(AF,Tdata);
