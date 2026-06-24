@@ -48,29 +48,131 @@ void agregar_Efinal(AF aut,char *Eacepta){
 }
 // ej Delta(q,alf)={q1,q2}->dest / el q es igual a donde va osea el from
 void agregar_transiciones(AF aut,char *from,char *alf,char *dest){
-	//buscar el Nodo
 	//verifico si exite si es verdar le agrego los detinos por ser AFND
 	//sino una nueva entrada lo creo y la agrego sus destinos
-	State fr = crea_str_Enl(from);
 	
-	
-	
-	DeltaNodo trans = buscar_nodo(aut,);
+	State q = crea_str_Enl(from);
+	//Symbol al = crea_str_Enl(alf);
+	DeltaNodo trans = buscar_transicion(aut,q,alf);
 	Tdata destino = crea_str_Enl(dest);
 	
 	if(trans!=NULL){
 		//Esto significa que si exite la transicion por lo tanto le agrego el destimmo a dicha transicion 
 		append_set(&trans->destinatario,destino);
-		printf("Se agrego el nuevo destino a la transicion");
+		//printf("Se agrego el nuevo destino a la transicion");
 	}else{
-		DeltaNodo nuevo =
+		//agrega al sig nodo la transicion ya que es nueva
+		if(pertenece_Q(aut,destino)==1){
+			DeltaNodo nuevo = crear_deltaNodo(from, alf);//es el mismo valor que q,al
+			
+			append_set(&nuevo->destinatario, destino);
+			nuevo->sigi = aut->delta;
+			aut->delta  = nuevo;
+		}else{
+			printf("\nNo pertenece al conjunto\n");
+		}
 	}
 	
 
 }
-DeltaNodo buscar_transicion(AF aut,State ,b){
+//verifica el q si exixte la transicion
+int pertenece_Q(AF aut,Tdata destino){
+	AF aux=aut;
+	
+	if(belongs(aux->Q,destino)==1){
+		return 1;
+	}
+	return 0;
+}
+//esta solo busca las transiciones nada mas
+DeltaNodo buscar_transicion(AF aut,State q,char *alf){
 	//idea geberal buscar el delta osea el nodo delta(q,simbolo)
-	aux aut 
+	Symbol al =crea_str_Enl(alf);
+	
+	DeltaNodo aux = aut->delta;
+
+	while(aux!=NULL){
+		if(equals_general(aux->from,q)==0 && equals_general(aux->symbol,al)==0){
+			return aux;
+		}
+		aux=aux->sigi;
+	}
+	return NULL;
+}
+/*	
+void aceptacion_cadena(AF aut, char *w){
+	Tdata cadena = crea_str_Enl(w);
+	if(cadena == NULL || cadena->string == NULL){
+		printf("\nCadena vacia\n");
+		
+	}else{
+		Tdata estados_actuales = NULL;
+		append_set(&estados_actuales, aut->qI);
+		
+		str aux = cadena->string;
+		//printf("\nCadena : ");
+		//str_imprimir(aux);
+		//printf("\n");
+		
+		while(aux != NULL){
+			
+			char simb[2] = {
+				aux->dato, '\0'
+			};
+			//char simb=aux->dato;
+			//Symbol si=carac_str(simb);
+			
+			Tdata nuevos_estados = NULL; //estados siguientes
+			
+			//por cada estado actual busco su transicion
+			Tdata e = estados_actuales;
+			while(e != NULL){
+				
+				//DeltaNodo trans = buscar_trans_estados(aut, e->data,si->data);
+				DeltaNodo trans =buscar_transicion(aut,e->data,simb);
+				
+				if(trans != NULL){
+					// agrego todos los destinos al nuevo conjunto
+					Tdata dest = trans->destinatario;
+					//printSet(trans->destinatario);
+					while(dest != NULL){
+						if(belongs(nuevos_estados, dest->data) != 1){
+							append_set(&nuevos_estados, dest->data);//delta 
+						}
+						dest = dest->next;
+					}
+				}
+				e = e->next;
+			}
+			
+			//if(nuevos_estados == NULL){
+				//printf("\nCadena RECHAZADA: no hay transiciones posibles\n");
+				//return;
+			//}
+			
+			estados_actuales = nuevos_estados;
+			aux = aux->sig;
+		}
+		// verifico si algún estado actual es de aceptación
+		if(pertence_qf(aut,estados_actuales)==1){
+			printf("\nCadena ACEPTADA\n");
+		}else{
+			printf("\nCadena RECHAZADA:ningun estado final es de aceptacion\n");
+		}
+	}
+	
+}*/
+//Devuelve 1 si algun estado esta pertenece a F=qf
+int pertence_qf(AF aut ,Tdata estados){
+	Tdata aux = estados;
+	//printSet(estados);
+	while(aux!=NULL){
+		if(belongs(aut->F, aux->data) == 1){
+			return 1;
+		}
+		aux=aux->next;
+	}
+	return 0;
 }
 void mostar_automata(AF aut){
 	printf("\nQ =");
@@ -82,7 +184,123 @@ void mostar_automata(AF aut){
 	printf("\nF =");
 	printSet(aut->F);
 	printf("\n");
+	printf("Mostrar tranciciones \n");
+	DeltaNodo aux = aut->delta;
+	while(aux!=NULL){
+		printf("delta(");
+		str_imprimir(aux->from->string);
+		printf(",");
+		str_imprimir(aux->symbol->string);
+		printf(")=");
+		printSet(aux->destinatario);
+		printf("\n");
+		aux=aux->sigi;
+	}
 	
-	//Falta el imprimir el delta osea las transiciones 
 }
-	//Faltaria para modificar los estados o las transiciones 
+int perteneceSigma(Tdata sigma, char *w){
+	int i = 0;
+	Tdata aux=NULL, set=NULL;
+	while(w[i] != '\0'){
+		char c[2];
+		c[0] = w[i];
+		c[1] = '\0';
+		aux = crea_str_Enl(c);
+		append_set(&set, aux);
+		//printSet(set);
+		i++;
+	}
+	if(subset(set, sigma)==1){
+		return 1;
+	} else{
+		return -1;
+	}
+}
+	
+char str_a_string(str cadena){  //En cadena.h y cadena.c
+	int len = 0;
+	str aux = cadena;
+		
+	// Contar caracteres
+	while(aux != NULL){
+		len++;
+		aux = aux->sig;
+	}
+	
+	// Reservar memoria (+1 para '\0')
+	chartexto = malloc((len + 1) * sizeof(char));
+	if(texto == NULL)
+		return NULL;
+	
+	// Copiar caracteres
+	aux = cadena;
+	int i = 0;
+	while(aux != NULL){
+		texto[i++] = aux->dato;
+		aux = aux->sig;
+	}
+	
+	texto[i] = '\0';
+	
+	return texto;
+}
+void aceptacion_cadena(AF aut, char *w){
+	if(w!=NULL && perteneceSigma(aut->sigma, w)==1){
+		Tdata viejoEstadosActuales=NULL;
+		Tdata nuevoEstadosActuales=NULL;
+		append_set(&nuevoEstadosActuales, aut->qI);
+		
+		int i=0;
+		while(w[i] != '\0'){
+			char c[2];
+			c[0] = w[i];
+			c[1] = '\0';
+			viejoEstadosActuales = nuevoEstadosActuales;
+			nuevoEstadosActuales = NULL;        //implementar free() para malloc
+			while(viejoEstadosActuales!=NULL){
+				str estado = viejoEstadosActuales->data->string;
+				//if(viejoEstadosActuales->data==NULL) printf("A----- %d", viejoEstadosActuales->nodeType);
+				charest = str_a_string(estado);
+				//printSet(aut->delta);
+				DeltaNodo transicion = buscar_transicion(aut, est, c);
+				//printf("\nEstado: %s - Symbolo: %s", est, c);
+				if(transicion!=NULL){
+					Tdata destinatarios = transicion->destinatario;
+					while(destinatarios != NULL){
+						append_set(&nuevoEstadosActuales, destinatarios->data);
+						destinatarios = destinatarios->next;
+					}
+				}
+				
+				viejoEstadosActuales = viejoEstadosActuales->next;
+				}
+			
+			i++;
+		}
+		//printSet(nuevoEstadosActuales);printSet(aut->F);
+		Tdata interseccion = intersection_set(nuevoEstadosActuales, aut->F);
+		if(interseccion!=NULL){
+			printf("Cadena aceptada");
+		}
+	}
+}
+	/*DeltaNodo buscar_trans_estados(AF aut,State q,Symbol alf){
+	//idea geberal buscar el delta osea el nodo delta(q,simbolo)
+	//Symbol al =crea_str_Enl(alf);
+	str_imprimir(alf);
+	DeltaNodo aux = aut->delta;
+	
+	while(aux!=NULL){
+	if(equals_general(aux->from,q)==0 && equals_general(aux->symbol,alf)==0){
+	return aux;
+	}
+	aux=aux->sigi;
+	}
+	return NULL;
+	}*/
+	
+	/*Symbol carac_str(char c){
+		Symbol carac=create_str_ast();
+		str_agregar(&carac,c);
+		return carac;
+	}*/		

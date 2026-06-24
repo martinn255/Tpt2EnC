@@ -72,45 +72,6 @@ Tdata clone2(Tdata n){
 	return nuevo;
 }
 
-/*Tdata clone(Tdata n){
-	if(n == NULL) return NULL;
-	
-	Tdata nuevo = NULL;
-	
-	if(n->nodeType == STR){
-		nuevo = create_str_ast();
-		//nuevo->string = load2(n->string);
-	}
-	
-	else if(n->nodeType == SET || n->nodeType == LIST){
-		nuevo = (n->nodeType == SET) ? create_set() : create_list();
-		
-		Tdata aux = n;
-		Tdata head = NULL;
-		Tdata tail = NULL;
-		
-		while(aux != NULL){
-			Tdata nodo_lista = create_set();  // nodo contenedor
-			
-			nodo_lista->data = clone(aux->data);
-			nodo_lista->next = NULL;
-			
-			if(head == NULL){
-				head = nodo_lista;
-				tail = nodo_lista;
-			} else {
-				tail->next = nodo_lista;
-				tail = nodo_lista;
-			}
-			
-			aux = aux->next;
-		}
-		
-		return head;
-	}
-	
-	return nuevo;
-}*/
 
 void append_set(Tdata *A, Tdata e){
 	Tdata nuevo = create_set();

@@ -6,19 +6,111 @@
 
 int main(){
 	
+	//AFD
+	
 	AF A=crear_automata();
 	//Lo mas parecido a los automatas de pyton la entrada
 	agregar_estado(A,"q0");
 	agregar_estado(A,"q1");
 	agregar_estado(A,"q2");
+	agregar_estado(A,"qf");
 	
 	agregar_simbolo(A,"a");
 	agregar_simbolo(A,"b");
 	
 	agregar_Einicial(A,"q0");
-	agregar_Efinal(A,"q2");
+	agregar_Efinal(A,"qf");
+	
+	//mostar_automata(A);
+	
+	agregar_transiciones(A,"q0","a","q1");//delta(q0,a)={q1}
+	agregar_transiciones(A,"q1","b","q2");
+	agregar_transiciones(A,"q2","b","qf");
 	
 	mostar_automata(A);
+	
+	//aceptacion(A,"abb");
+	
+	//int valor = perteneceSigma(A->sigma,"bba");
+	//printf("\nPertenece=%d",valor);
+	
+	aceptacion_cadena(A,"abb");		//acepta
+	aceptacion_cadena(A,"ab");		//rechza
+	aceptacion_cadena(A,"aba");		//rechaza
+	
+	
+	
+	printf("\n-------------------------------------------\n");
+	
+	/*AF B = crear_automata();
+	agregar_estado(B, "q0");
+	agregar_estado(B, "q1");
+	agregar_estado(B, "q2");
+	
+	agregar_simbolo(B, "a");
+	agregar_simbolo(B, "b");
+	
+	agregar_Einicial(B, "q0");
+	agregar_Efinal(B,   "q2");
+	
+	
+	agregar_transiciones(B, "q0", "a", "q0");
+	agregar_transiciones(B, "q0", "a", "q1");//a delta(q0,a)={q0,q1}
+	agregar_transiciones(B, "q0", "b", "q0");
+	agregar_transiciones(B, "q1", "b", "q2");
+	agregar_transiciones(B, "q2", "a", "q2");
+	agregar_transiciones(B, "q2", "b", "q2");
+	
+	mostar_automata(B);
+	printf("\n");
+	
+	aceptacion_cadena(B, "ab");    //acepta
+	aceptacion_cadena(B, "bab");   //acepta
+	aceptacion_cadena(B, "aab");   //acepta
+	aceptacion_cadena(B, "b");     //rechza
+	aceptacion_cadena(B, "ba");    //rechaza*/
+	
+	
+	printf("\n-------------------------------------------\n");
+	AF afn = crear_automata();
+	agregar_estado(afn, "q0");
+	agregar_estado(afn, "q1");
+	agregar_estado(afn, "q2");
+	agregar_estado(afn, "q3");
+	agregar_estado(afn, "q4");
+	agregar_estado(afn, "q5");
+	
+	agregar_simbolo(afn, "a");
+	agregar_simbolo(afn, "b");
+	
+	agregar_Einicial(afn, "q0");
+	agregar_Efinal(afn,"q5");
+	
+	agregar_transiciones(afn, "q0", "a", "q0");
+	agregar_transiciones(afn, "q0", "b", "q0");
+	agregar_transiciones(afn, "q0", "b", "q1");
+	agregar_transiciones(afn, "q0", "b", "q2");
+	
+	agregar_transiciones(afn, "q1", "a", "q2");
+	agregar_transiciones(afn, "q1", "a", "q3");
+	
+	agregar_transiciones(afn, "q2", "b", "q4");
+	
+	agregar_transiciones(afn, "q3", "a", "q5");
+	
+	agregar_transiciones(afn, "q4", "b", "q5");
+	
+	agregar_transiciones(afn, "q5", "a", "q5");
+	agregar_transiciones(afn, "q5", "b", "q5");
+	
+	mostar_automata(afn);
+	
+	aceptacion_cadena(afn, "aab");    //rechaza
+	aceptacion_cadena(afn, "ababbb");    //acepta
+	aceptacion_cadena(afn, "abb");    //rechaza
+	aceptacion_cadena(afn, "baa");    //acepta
+	
+	
 	//prueba_set();
 	//prueba_cad();
 	//printf("\n");
@@ -40,6 +132,9 @@ void prueba_set(){
 	//A = {"hola", "mundo"} 
 	Tdata s1= create_str_ast();
 	str_desde_string(&(s1->string),"Hola");//Esta es la forma de agrgar una cadena
+	
+	
+	
 	Tdata s2= create_str_ast();				//ya que es Tdata con mas cosas aparte de string
 	str_desde_string(&(s2->string),"Mundo");//Corregir este s->string 
 	

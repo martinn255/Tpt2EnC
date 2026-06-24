@@ -100,7 +100,9 @@ str str_copiar_cad(str orig){
 		//str tail=NULL;
 		//str nuevo=str_crear();
 		while(aux!=NULL){
+			
 			c=aux->dato;
+			//printf("\nmost:%c",c);
 			str_agregar(&nuevo,c);
 			aux=aux->sig;
 		}
@@ -137,18 +139,5 @@ str str_concat(str cad1 , str cad2){
 	return nuevo;
 	
 }
-//*/
-/*
- str load2(str s){
-	str r = (str)malloc(strlen(s)+1);
-	strcpy(r, s);
-	return r;
-}
-	
-void print_string(str s){
-	printf("%s", s);
-}
-
-*/
 
 

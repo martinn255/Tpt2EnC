@@ -13,11 +13,11 @@ typedef Tdata Symbol;
 	Symbol symbol;//simbolo 
 	Tdata destinatario;//a donde va osea a los conjuntos ej,q1,q2 es un set
 }DeltaEntry;*/
-typedef struct NodoDel{
+typedef struct NodoD{
 	State from;
 	Symbol symbol;
 	Tdata destinatario;
-	struct NodoDel *sigi;
+	struct NodoD *sigi;
 }NodoDel;
 typedef NodoDel *DeltaNodo;
 
@@ -43,6 +43,13 @@ void agregar_simbolo(AF ,char *);
 void agregar_Einicial(AF ,char*);
 void agregar_Efinal(AF ,char *);
 
-void agregar_transiciones(AF *,char *q,char *simb,char *dest);
+void agregar_transiciones(AF ,char *q,char *simb,char *dest);
 void mostar_automata(AF);
-DeltaNodo buscar_transicion(AF , char*,char*);
+//DeltaNodo buscar_transicion(AF , State,Symbol);
+void aceptacion(AF,char*);
+
+DeltaNodo buscar_transicion(AF,State,char*);
+//void aceptacion_cadena(AF,char *);
+int perteneceSigma(Tdata,char*);
+int pertence_qf(AF,Tdata);
+int pertenece_Q(AF,Tdata);
