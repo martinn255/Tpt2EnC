@@ -110,7 +110,7 @@ int main(){
 	aceptacion_cadena(afn, "abb");    //rechaza
 	aceptacion_cadena(afn, "baa");    //acepta
 	
-	
+	//conv_afnd_afd(afn);
 	//prueba_set();
 	//prueba_cad();
 	//printf("\n");

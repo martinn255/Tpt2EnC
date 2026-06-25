@@ -13,6 +13,8 @@ typedef Tdata Symbol;
 	Symbol symbol;//simbolo 
 	Tdata destinatario;//a donde va osea a los conjuntos ej,q1,q2 es un set
 }DeltaEntry;*/
+
+
 typedef struct NodoD{
 	State from;
 	Symbol symbol;

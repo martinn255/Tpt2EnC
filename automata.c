@@ -21,7 +21,7 @@ AF crear_automata(){
 DeltaNodo crear_deltaNodo(char *q,char *simb){
 	DeltaNodo nodo;
 	nodo = (DeltaNodo) malloc(sizeof(NodoDel));
-	nodo->from=crea_str_Enl(q);
+	nodo->from=crea_str_Enl(q);//modificar para que sea un conjunto no solo un strEnlazado
 	nodo->symbol=crea_str_Enl(simb);
 	nodo->destinatario=NULL;
 	nodo->sigi=NULL;
@@ -190,6 +190,7 @@ void mostar_automata(AF aut){
 	while(aux!=NULL){
 		printf("delta(");
 		str_imprimir(aux->from->string);
+		//printSet(aux->symbol);este es para modelar AFND
 		printf(",");
 		str_imprimir(aux->symbol->string);
 		printf(")=");
@@ -198,6 +199,49 @@ void mostar_automata(AF aut){
 		aux=aux->sigi;
 	}
 	
+}
+//aqui nesesito cambiar las transiciones ya que se convierten de 
+//delta(q,a)={q,q} a una transicion que el q es un conjunto 
+//Y hacer uniones de dicos conjuntos
+void conv_afnd_afd(AF aut){
+	AF nuevo = crear_automata();
+	
+	State qIinicial = NULL;
+	append_set(&nuevo,qIinicial);
+	//hago una lista para tener los pendientes a procesar
+	State pend=NULL;
+	append_list(&pend,qIinicial);
+	
+	//una lista para agregar conjuntos que ya procese para no repetotir
+	State procesado=NULL;
+	
+	while(pend!=NULL){
+		State estado_actual=clone2(pend->data);
+		//cabio el estado a procesado para no volver a tocar
+		append_list(&procesado,estado_actual);
+		
+		
+		//le doy el valor del simbolo
+		Symbol si=nuevo->sigma;
+		//while(){
+			
+		//}
+		pend=pend->next;
+	}
+	
+	DeltaNodo aux = aut->delta;
+	printf("\nTranciciones a modificar \n");
+	while(aux!=NULL){
+		printf("delta(");
+		str_imprimir(aux->from->string);
+		//printSet(aux->symbol);este es para modelar AFND
+		printf(",");
+		str_imprimir(aux->symbol->string);
+		printf(")=");
+		printSet(aux->destinatario);
+		printf("\n");
+		aux=aux->sigi;
+	}
 }
 int perteneceSigma(Tdata sigma, char *w){
 	int i = 0;

@@ -168,10 +168,31 @@ int belongs(Tdata A, Tdata elem){
 	return -1;
 }
 //eliminar elem del conjunto (esto entiendo yo)
-void remove_set(Tdata* set, Tdata elem){
+//void remove_set(Tdata* set, Tdata elem){
+	
+//}
+void remove_set(Tdata *set, Tdata elem){
+	int b=0;
+	if((*set) == NULL || elem == NULL){
+		printf("\nConjunto o elem vacio no se puede eliminar");
+	}else{
+		Tdata aux = *set, ant = NULL;
+		while(aux != NULL && b==0){
+			if(aux->data != NULL && equals_general(aux->data, elem) == 0){
+				if(ant == NULL)
+					*set = aux->next;
+				else
+					ant->next = aux->next;
+				aux->next = NULL;
+				free(aux->data); free(aux);
+				b=1;//cambia la bandera para decir que ya encontro el elemento a eliminar
+			}
+			ant = aux;
+			aux = aux->next;
+		}
+	}
 	
 }
-
 
 //Operaciones sobre listas	
 void print_list(Tdata list){
